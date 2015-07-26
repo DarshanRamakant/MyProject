@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import model.Connection.*;
 public class SearchDao {
 
-	public void searchByRollNoOrEmailIdAndUserId(String ROLL_NO,String EMAILID,int USER_ID) {
+	public void searchUserProfDetails(String ROLL_NO,String EMAILID,int USER_ID) {
 		
 		ResultSet rs = null;
 		

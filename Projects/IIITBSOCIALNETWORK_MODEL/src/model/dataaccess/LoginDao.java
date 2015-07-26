@@ -7,7 +7,7 @@ import model.Connection.*;
 public class LoginDao {
 
 	
-	public void loginByRollNoOrEmailIDAndPassword(String ROLL_NO,String EMAILID,String PASSWORD) {
+	public void getUserLoginId(String ROLL_NO,String EMAILID,String PASSWORD) {
 
 		ResultSet rs = null;
 		

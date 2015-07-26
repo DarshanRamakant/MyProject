@@ -3,34 +3,39 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import model.Connection.ConnectionPool;
+import model.Connection.Queries;
+
 import com.mysql.jdbc.Blob;
 
-import model.Connection.*;
 public class RegistrationDao {
 
-	public static void registrationUser(String regNo,String email) {
+	public void insertUserIDMap(String ROLL_NO,String EMAILID) {
+		
 		PreparedStatement stmt = null;
-	    try {
+	    
+		try {
 			stmt = ConnectionPool.getCon().prepareStatement(Queries.REG_INS_USER_ID_MAP);
 
-		    stmt.setString(1,regNo);
-		    stmt.setString(2,email);
-			boolean rs = stmt.execute();
+		    stmt.setString(1,ROLL_NO);
+		    stmt.setString(2,EMAILID);
+			stmt.execute();
 		    		    
 	    } catch (SQLException e) {
-			// TODO Auto-generated catch block
+		
 			e.printStackTrace();
 		}
 
 	}
-	public static void InsertUserLogin(int userId,String pswrd) {
+	
+	public void insertUserLogin(int USER_ID,String PASSWORD) {
 		PreparedStatement stmt = null;
 	    try {
 			stmt = ConnectionPool.getCon().prepareStatement(Queries.REG_INS_USER_LOGIN);
 
-		    stmt.setInt(1,userId);
-		    stmt.setString(2,pswrd);
-			boolean rs = stmt.execute();
+		    stmt.setInt(1,USER_ID);
+		    stmt.setString(2,PASSWORD);
+			stmt.execute();
 		    		    
 	    } catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -39,18 +44,18 @@ public class RegistrationDao {
 
 	}
 	
-	public static void InsertProfile(int userId,String name,Blob pic,String gender,String course,int phoneNo) {
+	public void insertUserProfDetails(int USER_ID,String USER_NAME,Blob PROFILE_PIC,String GENDER,int COURSE_ID,String PHONE_NO) {
 		PreparedStatement stmt = null;
 	    try {
 			stmt = ConnectionPool.getCon().prepareStatement(Queries.REG_INS_USER_PROF_DETAILS);
 
-		    stmt.setInt(1,userId);
-		    stmt.setString(2,name);
-		    stmt.setBlob(3,pic);
-		    stmt.setString(4,gender);
-		    stmt.setString(5,course);
-		    stmt.setInt(6,phoneNo);
-			boolean rs = stmt.execute();
+		    stmt.setInt(1,USER_ID);
+		    stmt.setString(2,USER_NAME);
+		    stmt.setBlob(3,PROFILE_PIC);
+		    stmt.setString(4,GENDER);
+		    stmt.setInt(5,COURSE_ID);
+		    stmt.setString(6,PHONE_NO);
+			stmt.execute();
 		    		    
 	    } catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -58,14 +63,14 @@ public class RegistrationDao {
 		}
 
 	}
-	public static void InsertInterests(int userId,int interestId) {
+	public void insertUserInterest(int userId,int interestId) {
 		PreparedStatement stmt = null;
 	    try {
 			stmt = ConnectionPool.getCon().prepareStatement(Queries.REG_INS_USER_INTERESTS);
 
 		    stmt.setInt(1,userId);
 		    stmt.setInt(2,interestId);
-			boolean rs = stmt.execute();
+			stmt.execute();
 		    		    
 	    } catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -74,7 +79,7 @@ public class RegistrationDao {
 
 	}
     
-	public static void getUserId(String regNo,String email) {
+	public void getUserId(String ROLL_NO,String EMAILID) {
 		
 		ResultSet rs;
 		
@@ -82,11 +87,9 @@ public class RegistrationDao {
 	    try {
 			stmt = ConnectionPool.getCon().prepareStatement(Queries.REG_SEL_USER_ID_MAP);
 
-		    stmt.setString(1,regNo);
-		    stmt.setString(2,email);
-			 rs = stmt.executeQuery();
-			
-		    		    
+		    stmt.setString(1,ROLL_NO);
+		    stmt.setString(2,EMAILID);
+			 rs = stmt.executeQuery();   		    
 	    } catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
