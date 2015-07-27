@@ -7,9 +7,9 @@ import model.Connection.*;
 public class LoginDao {
 
 	
-	public void getUserLoginId(String ROLL_NO,String EMAILID,String PASSWORD) {
+	public Integer getUserLoginId(String ROLL_NO,String EMAILID,String PASSWORD) {
 
-		ResultSet rs = null;
+		Integer USER_ID = null;
 		
 		PreparedStatement stmt = null;
 	    try {
@@ -19,11 +19,20 @@ public class LoginDao {
 		    stmt.setString(2,EMAILID);
 		    stmt.setString(3,PASSWORD);
 		    
-		    rs = stmt.executeQuery();		
+		    
+		    ResultSet rs = stmt.executeQuery();
+		   
+		    if(rs.getFetchSize()>1)
+	    		throw new SQLException();
+		    
+		    if(rs.getFetchSize()==1)
+		    USER_ID = new Integer(rs.getInt(1));
+		   
 	    
 	    } catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	    return USER_ID;
 	}
 }

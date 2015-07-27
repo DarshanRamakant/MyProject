@@ -79,9 +79,10 @@ public class RegistrationDao {
 
 	}
     
-	public void getUserId(String ROLL_NO,String EMAILID) {
+	public Integer getUserId(String ROLL_NO,String EMAILID) {
 		
-		ResultSet rs;
+		
+		Integer USER_ID = null;
 		
 		PreparedStatement stmt = null;
 	    try {
@@ -89,11 +90,19 @@ public class RegistrationDao {
 
 		    stmt.setString(1,ROLL_NO);
 		    stmt.setString(2,EMAILID);
-			 rs = stmt.executeQuery();   		    
+		    ResultSet rs = stmt.executeQuery();
+		    
+		    if(rs.getFetchSize()>1)
+		    		throw new SQLException();
+		    
+		    if(rs.getFetchSize()==1)
+		    	USER_ID = new Integer(rs.getInt(1));
+			
 	    } catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	    return USER_ID;
 
 	}
 

@@ -22,6 +22,7 @@ public class MainClass {
 		SearchDao searchDao = new SearchDao();
 		
 		/* Test Data */
+		
 		String ROLL_NO1 = "Anand";
 		String EMAILID1 = "Test";
 		String PASSWORD1 = "PASS";
@@ -38,15 +39,15 @@ public class MainClass {
 		String PHONE_NO2 = "9962547541";
 		String POST_CONTENT2 = "Hello World 1";
 		
-		int USER_ID = 1;
-		int FRND_ID = 2;
 		
 		int interestId = 1;
 		int COURSE_ID = 1;
 		
 		registrationDao.insertUserIDMap(ROLL_NO1, EMAILID1);
 		
-		registrationDao.getUserId(ROLL_NO1, EMAILID1);
+		int USER_ID = registrationDao.getUserId(ROLL_NO1, EMAILID1);
+		
+		System.out.println(USER_ID);
 		
 		registrationDao.insertUserLogin(USER_ID, PASSWORD1);
 		
@@ -54,19 +55,21 @@ public class MainClass {
 		
 		registrationDao.insertUserInterest(USER_ID, interestId);
 		
-		loginDao.getUserLoginId(ROLL_NO1, EMAILID1, PASSWORD1);
+		USER_ID = loginDao.getUserLoginId(ROLL_NO1, EMAILID1, PASSWORD1);
 		
 		registrationDao.insertUserIDMap(ROLL_NO2, EMAILID2);
 		
-		registrationDao.getUserId(ROLL_NO2, EMAILID2);
+		int FRND_ID = registrationDao.getUserId(ROLL_NO2, EMAILID2);
+		
+		System.out.println(FRND_ID);
 		
 		registrationDao.insertUserLogin(FRND_ID, PASSWORD2);
 		
-		registrationDao.insertUserProfDetails(USER_ID, NAME2, null, GENDER2, COURSE_ID, PHONE_NO2);
+		registrationDao.insertUserProfDetails(FRND_ID, NAME2, null, GENDER2, COURSE_ID, PHONE_NO2);
 		
 		registrationDao.insertUserInterest(FRND_ID, interestId);
 		
-		loginDao.getUserLoginId(ROLL_NO2, EMAILID2, PASSWORD2);
+		FRND_ID = loginDao.getUserLoginId(ROLL_NO2, EMAILID2, PASSWORD2);
 	
 		
 		addFriendDao.insertUserFriend(USER_ID, FRND_ID);
@@ -81,7 +84,7 @@ public class MainClass {
 		
 		postContentDao.getUserPostContent( FRND_ID);
 		
-		searchDao.searchUserProfDetails(ROLL_NO2, EMAILID2, USER_ID);
+		searchDao.getUserProfDetails(ROLL_NO2, EMAILID2, USER_ID);
 
 		
 		ConnectionPool.closeConnection();
