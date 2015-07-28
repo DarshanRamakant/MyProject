@@ -5,20 +5,23 @@ import java.sql.SQLException;
 
 import model.Connection.ConnectionPool;
 import model.Connection.Queries;
+import model.model.Interest;
+import model.model.Login;
+import model.model.User;
 
 import com.mysql.jdbc.Blob;
 
 public class RegistrationDao {
 
-	public void insertUserIDMap(String ROLL_NO,String EMAILID) {
+	public void insertUserIDMap(Login l) {
 		
 		PreparedStatement stmt = null;
 	    
 		try {
 			stmt = ConnectionPool.getCon().prepareStatement(Queries.REG_INS_USER_ID_MAP);
 
-		    stmt.setString(1,ROLL_NO);
-		    stmt.setString(2,EMAILID);
+		    stmt.setString(1,l.getROLL_NO());
+		    stmt.setString(2,l.getEMAILID());
 			stmt.execute();
 		    		    
 	    } catch (SQLException e) {
@@ -28,13 +31,13 @@ public class RegistrationDao {
 
 	}
 	
-	public void insertUserLogin(int USER_ID,String PASSWORD) {
+	public void insertUserLogin(User u,Login l) {
 		PreparedStatement stmt = null;
 	    try {
 			stmt = ConnectionPool.getCon().prepareStatement(Queries.REG_INS_USER_LOGIN);
 
-		    stmt.setInt(1,USER_ID);
-		    stmt.setString(2,PASSWORD);
+		    stmt.setInt(1,u.getUSER_ID());
+		    stmt.setString(2,l.getPASSWORD());
 			stmt.execute();
 		    		    
 	    } catch (SQLException e) {
@@ -44,17 +47,17 @@ public class RegistrationDao {
 
 	}
 	
-	public void insertUserProfDetails(int USER_ID,String USER_NAME,Blob PROFILE_PIC,String GENDER,int COURSE_ID,String PHONE_NO) {
+	public void insertUserProfDetails(User u) {
 		PreparedStatement stmt = null;
 	    try {
 			stmt = ConnectionPool.getCon().prepareStatement(Queries.REG_INS_USER_PROF_DETAILS);
 
-		    stmt.setInt(1,USER_ID);
-		    stmt.setString(2,USER_NAME);
-		    stmt.setBlob(3,PROFILE_PIC);
-		    stmt.setString(4,GENDER);
-		    stmt.setInt(5,COURSE_ID);
-		    stmt.setString(6,PHONE_NO);
+		    stmt.setInt(1,u.getUSER_ID());
+		    stmt.setString(2,u.getUSER_NAME());
+		    stmt.setBlob(3,u.getPROFILE_PIC());
+		    stmt.setString(4,u.getGENDER());
+		    stmt.setInt(5,u.getCourse().getCourseId());
+		    stmt.setString(6,u.getPHONE_NO());
 			stmt.execute();
 		    		    
 	    } catch (SQLException e) {
@@ -63,14 +66,18 @@ public class RegistrationDao {
 		}
 
 	}
-	public void insertUserInterest(int userId,int interestId) {
+	public void insertUserInterests(User u) {
 		PreparedStatement stmt = null;
 	    try {
-			stmt = ConnectionPool.getCon().prepareStatement(Queries.REG_INS_USER_INTERESTS);
-
-		    stmt.setInt(1,userId);
-		    stmt.setInt(2,interestId);
-			stmt.execute();
+	    	
+	    	for(Interest s:u.getUserInterests()){
+				stmt = ConnectionPool.getCon().prepareStatement(Queries.REG_INS_USER_INTERESTS);
+	
+			    stmt.setInt(1,u.getUSER_ID());
+			    stmt.setInt(2,s.getInterestId());
+				stmt.execute();
+			
+	    	}
 		    		    
 	    } catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -79,21 +86,30 @@ public class RegistrationDao {
 
 	}
     
-	public void getUserId(String ROLL_NO,String EMAILID) {
+	public User getUserId(Login l) {
 		
-		ResultSet rs;
 		
+		User u = null;
+		ResultSet rs = null;
 		PreparedStatement stmt = null;
 	    try {
 			stmt = ConnectionPool.getCon().prepareStatement(Queries.REG_SEL_USER_ID_MAP);
 
-		    stmt.setString(1,ROLL_NO);
-		    stmt.setString(2,EMAILID);
-			 rs = stmt.executeQuery();   		    
+		    stmt.setString(1,l.getROLL_NO());
+		    stmt.setString(2,l.getEMAILID());
+		     rs = stmt.executeQuery();
+		   if(rs.next())
+		   {
+			   u = new User();
+			   u.setROLL_NO(l.getROLL_NO());
+			   u.setEMAIL(l.getEMAILID());
+			   u.setUSER_ID( rs.getInt(1));
+		   }
 	    } catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	    return u;
 
 	}
 
