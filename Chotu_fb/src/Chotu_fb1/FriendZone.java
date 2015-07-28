@@ -27,6 +27,6 @@ public class FriendZone extends JFrame{
 	public static void main(String[] args) {
 	// TODO Auto-generated method stub
 	friend = new FriendZone();
-	friend.setSize(1000,750);
+	friend.setSize(755,700);
 	}
 }

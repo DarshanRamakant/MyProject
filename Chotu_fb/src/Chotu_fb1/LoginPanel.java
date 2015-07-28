@@ -52,11 +52,18 @@ public class LoginPanel extends JPanel implements ActionListener{
 	{
 
 		Registration s= new Registration();
+		NewsFeed NF = new NewsFeed();
 		if(ae.getSource()==Signup)
 		{
 			this.setVisible(false);
 			FriendZone.friend.add(s);
 			
+		}
+		if(ae.getSource()==Login){
+			this.setVisible(false);
+			//FriendZone.friend.removeNotify();
+			FriendZone.friend.add(NF);
+		
 		}
 	}
 }
