@@ -8,7 +8,7 @@ public class ConnectionPool {
 		final static String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 		final static String DB_URL = "jdbc:mysql://localhost/IIITBSOCIALNETWORK";
 		final static String USER = "root";
-		final static String PASS = "";
+		final static String PASS = "drb";
 		private static Connection con;
 		public static void createConnection()
 		{

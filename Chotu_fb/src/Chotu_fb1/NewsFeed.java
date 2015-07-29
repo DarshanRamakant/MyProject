@@ -246,8 +246,14 @@ public class NewsFeed extends JPanel implements ActionListener{
 	
 	public void postC()
 	{
-		
-        List l = u.getPostContentDto();
+		System.out.println("in the post c");
+        panel2.revalidate();
+        panel2.repaint();
+       // private UserController userController;
+        //JTextArea post = new JTextArea(5,36);
+        addComponent(4, 1, 3, 3, post);
+        addComponent(10, 1, 3, 3, postbutton);
+        List l = this.getU().getPostContentDto();
         
         if(l!=null)
         {
@@ -260,14 +266,13 @@ public class NewsFeed extends JPanel implements ActionListener{
 	        while(i.hasNext())
 	        {
 	        	PostContentDto p = i.next();
-	        	
-	        	
-	        	l_i[in]= new JLabel(p.getUserName()+" "+ p.getPostContent());
+	        //	System.out.println(p.getPostContent());
+	        	l_i[in]= new JLabel(p.getUserName());//+" "+ p.getPostContent());
 		        
 	        	addComponent(13+6*in,1, 1, 3, l_i[in]);
 		        //java.sql.Timestamp  timestamp = rs.getTimestamp(4);
-		        System.out.println("Hello i am here");
-		        System.out.println(p.getPostTimeStamp());
+		       // System.out.println("Hello i am here");
+		        //System.out.println(p.getPostTimeStamp());
 		        l_ii[in]= new JLabel(p.getPostTimeStamp().toString());
 		        addComponent(13+6*in,3, 1, 3, l_ii[in]);
 	        	
@@ -279,8 +284,7 @@ public class NewsFeed extends JPanel implements ActionListener{
 		        
 		           
 	        }
-	        panel.revalidate();
-			panel.repaint();   
+	          
         }
 	}
 	
@@ -305,19 +309,20 @@ public class NewsFeed extends JPanel implements ActionListener{
 
 
 
-	@Override
+	
 	public void actionPerformed(ActionEvent ae) {
 		if(ae.getSource()==postbutton)
 		{
-			System.out.println(post.getText());
+			//System.out.println(post.getText());
+			System.out.println("Hello.................");
 			this.setU(this.getUserController().userPostContent(this.getU(), post.getText()));
+		
+			//panel.removeAll();
 			
-			this.postC();
-			panel.revalidate();
-			panel.repaint();
-			//this.setVisible(false);
-			//FriendZone.friend.add(s);
 			
+			panel2.removeAll();
+			panel2.validate();
+			postC();
 		}
 		// TODO Auto-generated method stub
 		

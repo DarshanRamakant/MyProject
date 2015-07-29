@@ -45,7 +45,7 @@ public class MainClass {
 		
 		registrationDao.insertUserIDMap(ROLL_NO1, EMAILID1);
 		
-		int USER_ID = registrationDao.getUserId(ROLL_NO1, EMAILID1);
+		Integer USER_ID = registrationDao.getUserId(ROLL_NO1, EMAILID1);
 		
 		System.out.println(USER_ID);
 		
