@@ -18,11 +18,18 @@ public class LoginController {
 		this.loginDao = loginDao;
 	}
 	
-	public User login (Login l){
+	public User login (Login l) throws Exception{
+		
 		User u = this.getLoginDao().getUserLoginId(l);
+		
+		if(u==null)
+		{
+			throw new Exception();
+		}
 		u = this.getLoginDao().getUserProfDetails(u);
 		
 		u = this.getLoginDao().getUserInterests(u);
+		
 		return u;
 	}
 }
