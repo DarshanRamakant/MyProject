@@ -1,17 +1,24 @@
 package Chotu_fb1;
-import model.model.*;
-import controller.*;
-
-//import javax.swing.JPanel;
-import java.awt.GridBagLayout;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-//import javax.swing.JButton;
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
+import model.model.Login;
+import model.model.User;
+import controller.LoginController;
+import controller.UserController;
+
+
 public class LoginPanel extends JPanel implements ActionListener{
 	/**
 	 * 
@@ -26,6 +33,7 @@ public class LoginPanel extends JPanel implements ActionListener{
 	JLabel Un = new JLabel("Rollno/Email :");
 	JLabel Pw = new JLabel("Password     :");
 	JTextField UnT=new JTextField(20);
+	JLabel lf = new JLabel("Login Failed");
 	JPasswordField PwT=new JPasswordField(20);
 	LoginPanel(){
 				
@@ -34,12 +42,12 @@ public class LoginPanel extends JPanel implements ActionListener{
 				setLayout(new GridBagLayout());
 
 
-				addComp(Un,1,1,1,1);
-				addComp(UnT,1,3,2,1);
-				addComp(Pw,2,1,1,1);
-				addComp(PwT,2,3,2,1);
-				addComp(Signup,3,1,1,1);
-				addComp(Login,3,4,1,1);
+				addComp(Un,2,1,1,1);
+				addComp(UnT,2,3,2,1);
+				addComp(Pw,3,1,1,1);
+				addComp(PwT,3,3,2,1);
+				addComp(Signup,4,1,1,1);
+				addComp(Login,4,4,1,1);
 				Login.addActionListener(this);	
 				Signup.addActionListener(this);
 		}
@@ -67,16 +75,31 @@ public class LoginPanel extends JPanel implements ActionListener{
 		}
 		if(ae.getSource()==Login){
 			this.setVisible(false);
-			//FriendZone.friend.removeNotify();
+
 			Login l = new Login();
 			l.setEMAILID(UnT.getText());
 			l.setROLL_NO(UnT.getText());
 			l.setPASSWORD(PwT.getText());
-			User u = this.getLoginController().login(l);
-			u = this.getUserController().getUserPostContent(u);
-			NewsFeed NF = new NewsFeed(u);
-			FriendZone.friend.add(NF);
-		
+			
+			try{
+					User u = this.getLoginController().login(l);		
+					u = this.getUserController().getUserPostContent(u);
+					NewsFeed NF = new NewsFeed(u);
+					FriendZone.friend.add(NF);
+			
+			}catch(Exception e)
+			{
+				this.setVisible(true);
+				
+				JOptionPane j = new JOptionPane();
+				j.showMessageDialog(this, "Login Failed");
+				UnT.setText("");
+				PwT.setText("");
+				
+
+				//addComp(lf,5,3,2,1);
+				System.out.println("Login Failed");
+			}
 		}
 	}
 	public LoginController getLoginController() {

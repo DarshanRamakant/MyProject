@@ -15,7 +15,7 @@ public class LoginDao {
 
 	
 	public User getUserLoginId(Login login) {
-		User user = new User();
+		User user = null;
 		
 		PreparedStatement stmt = null;
 	    try {
@@ -28,11 +28,14 @@ public class LoginDao {
 		   
 		    while(rs.next())
 		    {
+		    	user = new User();
+		    	
 		    	user.setUSER_ID( rs.getInt(1));
 		    	System.out.println(rs.getInt(1));
-		    }
 		    	user.setROLL_NO(login.getROLL_NO());
-		   user.setEMAIL(login.getEMAILID());
+		    	user.setEMAIL(login.getEMAILID());
+		    }
+		    	
 		   
 	    
 	    } catch (SQLException e) {
