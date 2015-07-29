@@ -26,6 +26,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 
 import model.Connection.ConnectionPool;
 import model.model.*;
@@ -259,12 +260,18 @@ public class Registration extends JPanel implements ActionListener{
 
 			u.setUserInterests(l1);
 			u.setPROFILE_PIC(null);
-		
-			this.getUserController().registration(l, u);
+			try{
+				
+				this.getUserController().registration(l, u);
 			
+			JOptionPane.showMessageDialog(this, "Registration Successful");
+			this.setVisible(false);
 			
-			 
-			 
+			FriendZone.friend.add(new LoginPanel());
+			}catch(Exception e)
+			{
+				JOptionPane.showMessageDialog(this, "Roll No or Email Id already registered!!");
+			}
 		}
 	}
 	public void addComp(Component cc,int r,int c,int w,int h)

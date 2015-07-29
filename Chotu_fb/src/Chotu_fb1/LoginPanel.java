@@ -1,17 +1,24 @@
 package Chotu_fb1;
-import model.model.*;
-import controller.*;
-
-//import javax.swing.JPanel;
-import java.awt.GridBagLayout;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-//import javax.swing.JButton;
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
+import model.model.Login;
+import model.model.User;
+import controller.LoginController;
+import controller.UserController;
+
+
 public class LoginPanel extends JPanel implements ActionListener{
 	/**
 	 * 
@@ -68,11 +75,12 @@ public class LoginPanel extends JPanel implements ActionListener{
 		}
 		if(ae.getSource()==Login){
 			this.setVisible(false);
-			//FriendZone.friend.removeNotify();
+
 			Login l = new Login();
 			l.setEMAILID(UnT.getText());
 			l.setROLL_NO(UnT.getText());
 			l.setPASSWORD(PwT.getText());
+			
 			try{
 					User u = this.getLoginController().login(l);		
 					u = this.getUserController().getUserPostContent(u);

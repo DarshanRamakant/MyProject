@@ -27,9 +27,10 @@ public class UserController {
 
 
 
-	public void registration(Login l,User u)
+	public void registration(Login l,User u) throws Exception
 	{
 		User _u = this.getRegistrationDao().getUserId(l);
+		
 		if(_u==null)
 		{
 			this.getRegistrationDao().insertUserIDMap(l);
@@ -39,6 +40,8 @@ public class UserController {
 			this.getRegistrationDao().insertUserProfDetails(u);
 			this.getRegistrationDao().insertUserInterests(u);
 		}
+		else
+			throw new Exception();
 	}
 	
 	public User userProfileView(User u)
