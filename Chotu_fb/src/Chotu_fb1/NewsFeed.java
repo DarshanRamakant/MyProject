@@ -60,7 +60,7 @@ public class NewsFeed extends JPanel {
 	        // <=== add with constraints here
 	        add(header, new GridBagConstraints(0, 0, 1, 1, 20, 1, GridBagConstraints.BASELINE, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 	        //getContentPane().add(_header, new GridBagConstraints(gridx, gridy, gridwidth, gridheight, weightx, weighty, anchor, fill, insets, ipadx, ipady));
-	        
+	     
 	        content = new JPanel();
 	        content.setSize(new Dimension(475, 700));
 	        content.setPreferredSize(new Dimension(475, 700));
@@ -235,21 +235,5 @@ public class NewsFeed extends JPanel {
 		panel2.add(cc,gc);
 	}
 	
-	public void addComponent1(int r,int c,int w,int h,Component cc)
-	{
-		gc.gridx=c;
-		gc.gridy=r;
-		gc.gridheight=h;
-		gc.gridwidth=w;
-		panel5.add(cc,gc);
-	}
-	
-	
-	
-	//public static void main(String a[])
-	//{
-	//new NewsFeed();
-	
-	//}
 }
 
