@@ -9,6 +9,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date;
+import java.util.Iterator;
+import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,11 +22,19 @@ import javax.swing.JTextArea;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import controller.UserController;
+
+import model.dto.PostContentDto;
+import model.model.Login;
+import model.model.User;
+
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
 
-public class NewsFeed extends JPanel {
+public class NewsFeed extends JPanel implements ActionListener{
 
 	/**
 	 * 
@@ -38,11 +49,15 @@ public class NewsFeed extends JPanel {
     private JPanel header;
     private JPanel panel,panel2;
     PreparedStatement ps1;
-
+    private User u;
+    JButton postbutton = new JButton("Post");
+    private UserController userController;
+    JTextArea post = new JTextArea(5,36);
     
-   
-	public NewsFeed()
+	public NewsFeed(User u)
 	{
+		this.userController = new UserController();
+		this.setU(u);
 		 
 		//super("IIITB Social Network..");
 		gc= new GridBagConstraints();
@@ -102,14 +117,18 @@ public class NewsFeed extends JPanel {
 	        JLabel l1= new JLabel(" ");
 	        addComponent(1,1, 3, 3, l1);
 	        
-	        JTextArea post = new JTextArea(5,36);
+	        
 	        addComponent(4, 1, 3, 3, post);
 	        
 	        JLabel l2= new JLabel(" ");
 	        addComponent(7,1, 3, 3, l2);
 	        
-	        JButton postbutton = new JButton("Post...");
+	        
 	        addComponent(10, 1, 3, 3, postbutton);
+	        postbutton.addActionListener(this);
+	        
+	        this.postC();
+	        
 	       /* try {
 	        ps1 = ConnectionPool.getConnection().prepareStatement("select * from Posts where roll_number='17'");
 			ResultSet rs=ps1.executeQuery();
@@ -185,31 +204,31 @@ public class NewsFeed extends JPanel {
 	        j1 =new JLabel("Roll Number : ");
 	        header.add(j1, new GridBagConstraints(1,5,2,3,0,0,GridBagConstraints.CENTER, GridBagConstraints.VERTICAL, new Insets(0, 0, 7, 7), 0, 0));	       // jb.setSize(100, 200);        
 
-	        j2 =new JLabel("mt2015033 ");
+	        j2 =new JLabel(this.getU().getROLL_NO());
 	        header.add(j2, new GridBagConstraints(3,5,2,3,0,0,GridBagConstraints.CENTER, GridBagConstraints.VERTICAL, new Insets(0, 0, 7, 7), 0, 0));	       // jb.setSize(100, 200);        
 
 	        j3 =new JLabel("Full Name : ");
 	        header.add(j3, new GridBagConstraints(1,8,2,3,0,0,GridBagConstraints.CENTER, GridBagConstraints.VERTICAL, new Insets(0, 0, 7, 7), 0, 0));	       // jb.setSize(100, 200);        
 
-	        j4 =new JLabel("Avinash Kumar");
+	        j4 =new JLabel(this.getU().getUSER_NAME());
 	        header.add(j4, new GridBagConstraints(3,8,2,3,0,0,GridBagConstraints.CENTER, GridBagConstraints.VERTICAL, new Insets(0, 0, 7, 7), 0, 0));	 
 	       
 	        j5 =new JLabel("Email : ");
 	        header.add(j5, new GridBagConstraints(1,11,2,3,0,0,GridBagConstraints.CENTER, GridBagConstraints.VERTICAL, new Insets(0, 0, 7, 7), 0, 0));	       // jb.setSize(100, 200);        
 
-	        j6 =new JLabel("avinash0234@gmail.com");
+	        j6 =new JLabel(this.getU().getEMAIL());
 	        header.add(j6, new GridBagConstraints(3,11,2,3,0,0,GridBagConstraints.CENTER, GridBagConstraints.VERTICAL, new Insets(0, 0, 7, 7), 0, 0));	 
 	        
 	        j7 =new JLabel("Gender : ");
 	        header.add(j7, new GridBagConstraints(1,14,2,3,0,0,GridBagConstraints.CENTER, GridBagConstraints.VERTICAL, new Insets(0, 0, 7, 7), 0, 0));	       // jb.setSize(100, 200);        
 
-	        j8 =new JLabel("Male");
+	        j8 =new JLabel(this.getU().getGENDER());
 	        header.add(j8, new GridBagConstraints(3,14,2,3,0,0,GridBagConstraints.CENTER, GridBagConstraints.VERTICAL, new Insets(0, 0, 7,7), 0, 0));	 
 	        
 	        j9 =new JLabel("Phone : ");
 	        header.add(j9, new GridBagConstraints(1,17,2,3,0,0,GridBagConstraints.CENTER, GridBagConstraints.VERTICAL, new Insets(0, 0, 7, 7), 0, 0));	       // jb.setSize(100, 200);        
 
-	        j10 =new JLabel("1234566789");
+	        j10 =new JLabel(this.getU().getPHONE_NO());
 	        header.add(j10, new GridBagConstraints(3,17,2,3,0,0,GridBagConstraints.CENTER, GridBagConstraints.VERTICAL, new Insets(0, 0, 7, 7), 0, 0));	 
 	          
 	        JButton jb = new JButton("Logout");
@@ -225,6 +244,45 @@ public class NewsFeed extends JPanel {
 		//setVisible(true);
 	}
 	
+	public void postC()
+	{
+		
+        List l = u.getPostContentDto();
+        
+        if(l!=null)
+        {
+	        Iterator<PostContentDto> i = l.iterator();
+	        int in = 0;
+	        JLabel[] l_i = new JLabel[l.size()];
+	        JLabel[] l_ii = new JLabel[l.size()];
+	        JTextArea[] post_i = new JTextArea[l.size()];
+	        
+	        while(i.hasNext())
+	        {
+	        	PostContentDto p = i.next();
+	        	
+	        	
+	        	l_i[in]= new JLabel(p.getUserName()+" "+ p.getPostContent());
+		        
+	        	addComponent(13+6*in,1, 1, 3, l_i[in]);
+		        //java.sql.Timestamp  timestamp = rs.getTimestamp(4);
+		        System.out.println("Hello i am here");
+		        System.out.println(p.getPostTimeStamp());
+		        l_ii[in]= new JLabel(p.getPostTimeStamp().toString());
+		        addComponent(13+6*in,3, 1, 3, l_ii[in]);
+	        	
+		        post_i[in]= new JTextArea(3,36);
+		        post_i[in].setText(p.getPostContent());
+		        addComponent(16+(6*in),1, 3, 3, post_i[in]);
+	
+		        in++;
+		        
+		           
+	        }
+	        panel.revalidate();
+			panel.repaint();   
+        }
+	}
 	
 	public void addComponent(int r,int c,int w,int h,Component cc)
 	{
@@ -233,6 +291,48 @@ public class NewsFeed extends JPanel {
 		gc.gridheight=h;
 		gc.gridwidth=w;
 		panel2.add(cc,gc);
+	}
+
+
+	public User getU() {
+		return u;
+	}
+
+
+	public void setU(User u) {
+		this.u = u;
+	}
+
+
+
+	@Override
+	public void actionPerformed(ActionEvent ae) {
+		if(ae.getSource()==postbutton)
+		{
+			System.out.println(post.getText());
+			this.setU(this.getUserController().userPostContent(this.getU(), post.getText()));
+			
+			this.postC();
+			panel.revalidate();
+			panel.repaint();
+			//this.setVisible(false);
+			//FriendZone.friend.add(s);
+			
+		}
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	public UserController getUserController() {
+		return userController;
+	}
+
+
+
+	public void setUserController(UserController userController) {
+		this.userController = userController;
 	}
 	
 }

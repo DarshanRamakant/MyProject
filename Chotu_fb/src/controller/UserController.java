@@ -55,6 +55,11 @@ public class UserController {
 		
 	}
 
+	public User getUserPostContent(User u)
+	{
+		return this.getPostContentDao().getUserPostContent(u);
+	}
+	
 	public RegistrationDao getRegistrationDao() {
 		return registrationDao;
 	}

@@ -3,6 +3,8 @@ package Chotu_fb1;
 
 import javax.swing.JFrame;
 
+import model.Connection.ConnectionPool;
+
 public class FriendZone extends JFrame{
 
 	static FriendZone friend;	
@@ -13,6 +15,7 @@ public class FriendZone extends JFrame{
 	
 	FriendZone()
 	{
+		ConnectionPool.createConnection();
 		this.setTitle("FriendZone");
 		LoginPanel LP1 = new LoginPanel();
 		add(LP1);
@@ -27,6 +30,6 @@ public class FriendZone extends JFrame{
 	public static void main(String[] args) {
 	// TODO Auto-generated method stub
 	friend = new FriendZone();
-	friend.setSize(755,700);
+	friend.setSize(1000,750);
 	}
 }

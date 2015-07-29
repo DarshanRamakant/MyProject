@@ -21,6 +21,7 @@ public class LoginController {
 	public User login (Login l){
 		User u = this.getLoginDao().getUserLoginId(l);
 		u = this.getLoginDao().getUserProfDetails(u);
+		
 		u = this.getLoginDao().getUserInterests(u);
 		return u;
 	}

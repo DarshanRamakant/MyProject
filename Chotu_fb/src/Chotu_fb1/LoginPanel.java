@@ -1,4 +1,6 @@
 package Chotu_fb1;
+import model.model.*;
+import controller.*;
 
 //import javax.swing.JPanel;
 import java.awt.GridBagLayout;
@@ -17,6 +19,8 @@ public class LoginPanel extends JPanel implements ActionListener{
 	private static final long serialVersionUID = 5411663284975460080L;
 	GridBagConstraints gc = new GridBagConstraints();
 	//JPanel LP1 = new JPanel();
+	private LoginController loginController;
+	private UserController userController;
 	JButton Login = new JButton("Login");
 	JButton Signup = new JButton("Signup");
 	JLabel Un = new JLabel("Rollno/Email :");
@@ -25,7 +29,8 @@ public class LoginPanel extends JPanel implements ActionListener{
 	JPasswordField PwT=new JPasswordField(20);
 	LoginPanel(){
 				
-				
+				this.loginController = new LoginController();
+				this.userController = new UserController();
 				setLayout(new GridBagLayout());
 
 
@@ -38,6 +43,7 @@ public class LoginPanel extends JPanel implements ActionListener{
 				Login.addActionListener(this);	
 				Signup.addActionListener(this);
 		}
+	
 	public void addComp(Component cc,int r,int c,int w,int h)
 	{	
 		gc.gridx=c;
@@ -52,7 +58,7 @@ public class LoginPanel extends JPanel implements ActionListener{
 	{
 
 		Registration s= new Registration();
-		NewsFeed NF = new NewsFeed();
+		
 		if(ae.getSource()==Signup)
 		{
 			this.setVisible(false);
@@ -62,8 +68,29 @@ public class LoginPanel extends JPanel implements ActionListener{
 		if(ae.getSource()==Login){
 			this.setVisible(false);
 			//FriendZone.friend.removeNotify();
+			Login l = new Login();
+			l.setEMAILID(UnT.getText());
+			l.setROLL_NO(UnT.getText());
+			l.setPASSWORD(PwT.getText());
+			User u = this.getLoginController().login(l);
+			u = this.getUserController().getUserPostContent(u);
+			NewsFeed NF = new NewsFeed(u);
 			FriendZone.friend.add(NF);
 		
 		}
+	}
+	public LoginController getLoginController() {
+		return loginController;
+	}
+	public void setLoginController(LoginController loginController) {
+		this.loginController = loginController;
+	}
+
+	public UserController getUserController() {
+		return userController;
+	}
+
+	public void setUserController(UserController userController) {
+		this.userController = userController;
 	}
 }

@@ -88,7 +88,7 @@ public class Registration extends JPanel implements ActionListener{
     Image bimage=null;
 	Registration(){
 		
-		ConnectionPool.createConnection();
+		
 		this.courseController = new CourseController();
 		this.interestController = new InterestController();
 		this.userController = new UserController();

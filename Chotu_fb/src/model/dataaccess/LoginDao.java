@@ -27,8 +27,11 @@ public class LoginDao {
 		    ResultSet rs = stmt.executeQuery();
 		   
 		    while(rs.next())
+		    {
 		    	user.setUSER_ID( rs.getInt(1));
-		   user.setROLL_NO(login.getROLL_NO());
+		    	System.out.println(rs.getInt(1));
+		    }
+		    	user.setROLL_NO(login.getROLL_NO());
 		   user.setEMAIL(login.getEMAILID());
 		   
 	    
@@ -75,7 +78,7 @@ public User getUserInterests(User u) {
 	List<Interest> userInterests = new ArrayList<Interest>();
 	PreparedStatement stmt = null;
     try {
-		stmt = ConnectionPool.getCon().prepareStatement(Queries.LOGIN_SEL_USER_PROF_DETAILS);
+		stmt = ConnectionPool.getCon().prepareStatement(Queries.LOGIN_SEL_USER_INTERESTS);
 
 	    stmt.setInt(1,u.getUSER_ID());
 	   
@@ -83,7 +86,6 @@ public User getUserInterests(User u) {
 	   
 	    while(rs.next()){
 	    	Interest ui = new Interest();
-	    	
 	    	ui.setInterestId(rs.getInt(1));
 	    	ui.setInterstDesc(rs.getString(2));
 	    	userInterests.add(ui);
